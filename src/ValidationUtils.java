@@ -1,23 +1,23 @@
 import javax.swing.*;
 public class ValidationUtils {
 
-    public static boolean printValidationMessage(String input, String reference, String input2, String reference2, String maxReference) {
-       if (input.length() >= reference.length()) {
-           return true;
-       } else if (input2.length() >= reference2.length()) {
-           return true;
-       }
-       if (input.length() >= maxReference.length()) {
-           return false;
-       } else if (input2.length() >= maxReference.length()) {
-           return false;
-       } else {
-           return true;
-       }
+    public static boolean printValidationMessage(String nameInput, String txtName, String lastNameInput, String txtLastName, String maxCharacters) {
+        int minLengthName = txtName.length();
+        int minLengthLastName = txtLastName.length();
+
+        if(nameInput.length() >= minLengthName && lastNameInput.length() >= minLengthLastName && nameInput.length() <= maxCharacters.length()  && lastNameInput.length() <= maxCharacters.length()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static boolean printVerifyIngUser(int input, int[] reference) {
-        return input <= reference[0] || input >= reference[1];
+        if(input < reference[1]){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public static String printVerifyGiftRegister(int input, int[] reference, String field, String[] myGift) {

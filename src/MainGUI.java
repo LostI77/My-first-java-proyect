@@ -43,40 +43,29 @@ public class MainGUI {
                 String lastNameValue = lastNameField.getText();
                 String ageValue = ageField.getText();
 
+                String myName = nameField.getText();
+                String myLastName = lastNameField.getText();
+                String txtName = "ABCD";
+                String txtLastName = "AB";
+                String txtMaxCharaters = "ABCDEFGHIJKEEE";
+                String[] myGift = {"Bueno, tenemos un regalo para ti", "Revisa tu buzon, tenemos un regalo para ti"};
+                int myAge = Integer.parseInt(ageField.getText());
+                int[] testAge = {13, 18, 22, 30};
+
+                ValidationUtils.printValidationMessage(myName, txtName, myLastName, txtLastName, txtMaxCharaters);
+                ValidationUtils.printVerifyIngUser(myAge, testAge);
+                ValidationUtils.printVerifyGiftRegister(myAge, testAge, "age", myGift);
+
                 if (!nameValue.isEmpty() && !lastNameValue.isEmpty() && !ageValue.isEmpty()) {
-
-                    String myName = nameField.getText();
-                    String myLastName = lastNameField.getText();
-                    String txtName = "ABCD";
-                    String txtLastName = "AB";
-                    String txtMaxCharaters = "ABCDEFGHIJKEEE";
-                    String[] myGift = {"Bueno, tenemos un regalo para ti", "Revisa tu buzon, tenemos un regalo para ti"};
-                    int myAge = Integer.parseInt(ageField.getText());
-                    int[] testAge = {13, 18, 22, 30};
-
-                    ValidationUtils.printValidationMessage(myName, txtName, myLastName, txtLastName, txtMaxCharaters);
-                    ValidationUtils.printVerifyIngUser(myAge, testAge);
-                    ValidationUtils.printVerifyGiftRegister(myAge, testAge, "age", myGift);
-
-                    boolean isNameValid =  ValidationUtils.printValidationMessage(myName, txtName, myLastName, txtLastName, txtMaxCharaters);
-                    boolean isAgeValid = ValidationUtils.printVerifyIngUser(myAge, testAge);
-
-                    if(!isNameValid) {
-                        JOptionPane.showMessageDialog(frame, "El nombre debe tener minimo 4 caracteres y el apellido 2 caracteres minimo");
+                    if(!ValidationUtils.printValidationMessage(myName, txtName, myLastName, txtLastName, txtMaxCharaters)) {
+                        JOptionPane.showMessageDialog(frame, "El nombre y el apellido deben tener mas de 4 a 2 caracteres y ser menor de 15 caracteres");
                         nameField.setText("");
                         lastNameField.setText("");
-                    } else if (!isAgeValid) {
+                    } else if (!ValidationUtils.printVerifyIngUser(myAge, testAge)) {
                         JOptionPane.showMessageDialog(frame, "No tienes la edad para registrarte");
                         ageField.setText("");
                     } else {
-                        JOptionPane.showMessageDialog(frame, "El nombre y apellido no debe tener mas de 15 caracteres");
-                        nameField.setText("");
-                        lastNameField.setText("");
-                    }
-
-                    if ((isAgeValid != true) || (isNameValid != true)) {
-                        JOptionPane.showMessageDialog(frame, "No se te ha podido registrar");
-                    } else {
+                        JOptionPane.showMessageDialog(frame, "Registro completado");
                         JFrame resultFrame = new JFrame("¡Te has registrado exitosamente!");
                         resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         resultFrame.setLayout(new BorderLayout());
@@ -101,7 +90,6 @@ public class MainGUI {
                         resultFrame.add(infoPanel, BorderLayout.CENTER);
                         resultFrame.pack();
                         resultFrame.setVisible(true);
-
                     }
                 } else {
                     JOptionPane.showMessageDialog(frame,"Los campos estan vacios, por favor ingrese los valores que se exigen.");
