@@ -44,29 +44,39 @@ public class MainGUI {
                 String ageValue = ageField.getText();
 
                 if (!nameValue.isEmpty() && !lastNameValue.isEmpty() && !ageValue.isEmpty()) {
+
                     String myName = nameField.getText();
                     String myLastName = lastNameField.getText();
                     String txtName = "ABCD";
                     String txtLastName = "AB";
+                    String txtMaxCharaters = "ABCDEFGHIJKEEE";
                     String[] myGift = {"Bueno, tenemos un regalo para ti", "Revisa tu buzon, tenemos un regalo para ti"};
                     int myAge = Integer.parseInt(ageField.getText());
                     int[] testAge = {13, 18, 22, 30};
 
-                    ValidationUtils.printValidationMessage(myName, txtName);
-                    ValidationUtils.printValidationMessage(myLastName, txtLastName);
+                    ValidationUtils.printValidationMessage(myName, txtName, myLastName, txtLastName, txtMaxCharaters);
                     ValidationUtils.printVerifyIngUser(myAge, testAge);
                     ValidationUtils.printVerifyGiftRegister(myAge, testAge, "age", myGift);
 
-                    boolean isNameValid =  ValidationUtils.printValidationMessage(myName, txtName);
+                    boolean isNameValid =  ValidationUtils.printValidationMessage(myName, txtName, myLastName, txtLastName, txtMaxCharaters);
                     boolean isAgeValid = ValidationUtils.printVerifyIngUser(myAge, testAge);
 
                     if(!isNameValid) {
                         JOptionPane.showMessageDialog(frame, "El nombre debe tener minimo 4 caracteres y el apellido 2 caracteres minimo");
-                    }
-                    if(!isAgeValid) {
+                        nameField.setText("");
+                        lastNameField.setText("");
+                    } else if (!isAgeValid) {
                         JOptionPane.showMessageDialog(frame, "No tienes la edad para registrarte");
+                        ageField.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "El nombre y apellido no debe tener mas de 15 caracteres");
+                        nameField.setText("");
+                        lastNameField.setText("");
                     }
-                    if(isNameValid && isAgeValid) {
+
+                    if ((isAgeValid != true) || (isNameValid != true)) {
+                        JOptionPane.showMessageDialog(frame, "No se te ha podido registrar");
+                    } else {
                         JFrame resultFrame = new JFrame("¡Te has registrado exitosamente!");
                         resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         resultFrame.setLayout(new BorderLayout());
