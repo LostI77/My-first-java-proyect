@@ -1,3 +1,5 @@
+import PanelOptions.ShowCustomPanelForLogin;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +29,7 @@ public class MainGUI {
         JTextField ageField = new JTextField(5);
         JPasswordField passwordField = new JPasswordField();
         JButton validateButton = new JButton("Validate");
+        JButton loginUp = new JButton("Login Up");
 
         Font buttonFont = new Font("Arial", Font.BOLD, 16);
 
@@ -38,6 +41,14 @@ public class MainGUI {
         validateButton.setFocusPainted(false);
 
         validateButton.setOpaque(true);
+
+        loginUp.setFont(buttonFont);
+        loginUp.setForeground(Color.white);
+        loginUp.setBackground(new Color(170, 183, 184));
+        loginUp.setBorder(BorderFactory.createEmptyBorder(10, 20, 10,20));
+        loginUp.setFocusPainted(false);
+
+        loginUp.setOpaque(true);
         validateButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered (java.awt.event.MouseEvent evt) {
                 validateButton.setBackground(Color.cyan);
@@ -46,7 +57,23 @@ public class MainGUI {
                 validateButton.setBackground(Color.blue);
             }
         });
+        loginUp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered (java.awt.event.MouseEvent evt) {loginUp.setBackground(new Color(170, 183, 184)); }
+            public void mouseExited (java.awt.event.MouseEvent evt) {loginUp.setBackground(new Color(127, 140, 141)); }
+        });
 
+        loginUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean registered = ShowCustomPanelForLogin.PanelForLogin();
+                if (registered) {
+                    frame.setVisible(false);
+                    createLoginFrame(createRegisterFrame()).setVisible(true);
+                } else {
+                    System.out.println("nothing");
+                }
+            }
+        });
         validateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -147,13 +174,14 @@ public class MainGUI {
         frame.add(new JLabel("Password:"));
         frame.add(passwordField);
         frame.add(validateButton);
+        frame.add(loginUp);
         frame.pack();
         return frame;
     }
     private static JFrame createLoginFrame(JFrame registerFrame) {
         JFrame frame = new JFrame("Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
+        frame.setLayout(new GridLayout(10, 15));
 
         JTextField inputGmailField = new JTextField(15);
         JTextField inputPasswordField = new JTextField(15);
@@ -164,6 +192,7 @@ public class MainGUI {
         frame.add(new JLabel("Ingresar Password:"));
         frame.add(inputPasswordField);
         frame.add(loginButton);
+        frame.setSize(400, 400);
         return frame;
     }
     private static JFrame createUserFrame(JFrame userFrame) {
