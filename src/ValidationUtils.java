@@ -1,4 +1,5 @@
-import javax.swing.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 public class ValidationUtils {
 
     public static boolean printValidationMessage(String nameInput, String txtName, String lastNameInput, String txtLastName, String maxCharacters) {
@@ -20,6 +21,23 @@ public class ValidationUtils {
         }
     }
 
+    public static boolean printVerifyGmail(String gmail, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(gmail);
+
+        if (matcher.matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static boolean printVerifyPassword(String password, String minCharacters, String maxCharacters, String regex) {
+        if(password.length() >= minCharacters.length() && password.length() <= maxCharacters.length() && Pattern.matches(regex, password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public static String printVerifyGiftRegister(int input, int[] reference, String field, String[] myGift) {
         if (input < 30) {
             if (input >= reference[2]) {
