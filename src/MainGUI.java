@@ -9,10 +9,15 @@ import java.util.ArrayList;
 
 public class MainGUI {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainGUI::createAndShowGUi);
+        SwingUtilities.invokeLater(() -> {
+            JFrame registerFrame = createRegisterFrame();
+            JFrame loginFrame = createLoginFrame(registerFrame);
+            JFrame userFrame = createUserFrame(loginFrame);
+            registerFrame.setVisible(true);
+        });
     }
-    private static void createAndShowGUi() {
-        JFrame frame = new JFrame("Validation and Gift Checker");
+    private static JFrame createRegisterFrame() {
+        JFrame frame = new JFrame("Register");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(10, 15));
 
@@ -116,9 +121,14 @@ public class MainGUI {
                         JLabel giftLabel = new JLabel(giftText);
                         infoPanel.add(giftLabel);
 
+                        frame.setVisible(false);
                         resultFrame.add(infoPanel, BorderLayout.CENTER);
                         resultFrame.pack();
                         resultFrame.setVisible(true);
+                        createLoginFrame(createRegisterFrame()).setVisible(true);
+
+                        User newUser = new User(myName, myLastName,myAge,myGmail,myPassword);
+                        UserFileManager.saveUser(newUser);
                     }
                 } else {
                     JOptionPane.showMessageDialog(frame,"Los campos estan vacios, por favor ingrese los valores que se exigen.");
@@ -138,6 +148,29 @@ public class MainGUI {
         frame.add(passwordField);
         frame.add(validateButton);
         frame.pack();
-        frame.setVisible(true);
+        return frame;
+    }
+    private static JFrame createLoginFrame(JFrame registerFrame) {
+        JFrame frame = new JFrame("Login");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        JTextField inputGmailField = new JTextField(15);
+        JTextField inputPasswordField = new JTextField(15);
+        JButton loginButton = new JButton("Login up");
+
+        frame.add(new JLabel("Ingresar Gmail:"));
+        frame.add(inputGmailField);
+        frame.add(new JLabel("Ingresar Password:"));
+        frame.add(inputPasswordField);
+        frame.add(loginButton);
+        return frame;
+    }
+    private static JFrame createUserFrame(JFrame userFrame) {
+        JFrame frame = new JFrame("Account");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        return frame;
     }
 }
