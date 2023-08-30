@@ -25,6 +25,7 @@ public class MainGUI {
 
         JTextField nameField = new JTextField(15);
         JTextField lastNameField = new JTextField(15);
+        JTextField userNameField = new JTextField(15);
         JTextField gmailField = new JTextField(15);
         JTextField ageField = new JTextField(5);
         JPasswordField passwordField = new JPasswordField();
@@ -79,6 +80,7 @@ public class MainGUI {
             public void actionPerformed(ActionEvent e) {
                 String nameValue = nameField.getText();
                 String lastNameValue = lastNameField.getText();
+                String userNameValue = userNameField.getText();
                 String ageValue = ageField.getText();
                 String gmailValue = gmailField.getText();
 
@@ -87,6 +89,7 @@ public class MainGUI {
 
                 String myName = nameField.getText();
                 String myLastName = lastNameField.getText();
+                String myUsername = userNameField.getText();
                 String myPassword= new String(passwordChars);
                 String myGmail = gmailField.getText();
 
@@ -94,9 +97,11 @@ public class MainGUI {
                 String txtLastName = "AB";
                 String txtMaxCharaters = "ABCDEFGHIJKEEE";
                 String txtPasswordMin = "ABCD";
-                String txtPasswordMax = "AAAAAAAAAAAAAAA";
+                String txtPasswordMax = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
                 String regexGmail = "^[A-Za-z0-9+_.-]+@(.+)$";
                 String regexPass = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$";
+                String regexUsername = "^[a-zA-Z0-9$#!]+$";
 
                 String[] myGift = {"Bueno, tenemos un regalo para ti", "Revisa tu buzon, tenemos un regalo para ti"};
 
@@ -106,10 +111,11 @@ public class MainGUI {
                 ValidationUtils.printValidationMessage(myName, txtName, myLastName, txtLastName, txtMaxCharaters);
                 ValidationUtils.printVerifyIngUser(myAge, testAge);
                 ValidationUtils.printVerifyGiftRegister(myAge, testAge, "age", myGift);
+                ValidationUtils.printVerifyUserName(myUsername, txtMaxCharaters, regexUsername);
                 ValidationUtils.printVerifyGmail(myGmail, regexGmail);
                 ValidationUtils.printVerifyPassword(myPassword, txtPasswordMin, txtPasswordMax, regexPass);
 
-                if (!nameValue.isEmpty() && !lastNameValue.isEmpty() && !ageValue.isEmpty() && !passwordValue.isEmpty() && !gmailValue.isEmpty()) {
+                if (!nameValue.isEmpty() && !lastNameValue.isEmpty() && !ageValue.isEmpty() && !passwordValue.isEmpty() && !gmailValue.isEmpty() && !userNameValue.isEmpty()) {
                     if(!ValidationUtils.printValidationMessage(myName, txtName, myLastName, txtLastName, txtMaxCharaters)) {
                         JOptionPane.showMessageDialog(frame, "El nombre y el apellido deben tener mas de 4 a 2 caracteres y ser menor de 15 caracteres");
                         nameField.setText("");
@@ -119,9 +125,12 @@ public class MainGUI {
                         ageField.setText("");
                     } else if(!ValidationUtils.printVerifyGmail(myGmail, regexGmail)) {
                         JOptionPane.showMessageDialog(frame, "Ingrese un Gmail valido");
+                    } else if(!ValidationUtils.printVerifyUserName(myUsername, txtMaxCharaters, regexUsername)) {
+                        JOptionPane.showMessageDialog(frame, "Tu usuario no cumple con los requisitos");
+                        userNameField.setText("");
                     } else if(!ValidationUtils.printVerifyPassword(myPassword, txtPasswordMin, txtPasswordMax, regexPass)) {
                         JOptionPane.showMessageDialog(frame, "La contraseña no es correcta");
-                        gmailField.setText("");
+                        passwordField.setText("");
                     } else {
                         JOptionPane.showMessageDialog(frame, "Registro completado");
                         JFrame resultFrame = new JFrame("¡Te has registrado exitosamente!");
@@ -136,6 +145,9 @@ public class MainGUI {
 
                         JLabel infolabel = new JLabel("Nombre y apellido: " + myName + " " + myLastName);
                         infoPanel.add(infolabel);
+
+                        JLabel userLabel = new JLabel("Tu username es: " + myUsername);
+                        infolabel.add(userLabel);
 
                         JLabel gmailLabel = new JLabel("Gmail: " + myGmail);
                         infoPanel.add(gmailLabel);
@@ -154,7 +166,7 @@ public class MainGUI {
                         resultFrame.setVisible(true);
                         createLoginFrame(createRegisterFrame()).setVisible(true);
 
-                        User newUser = new User(myName, myLastName,myAge,myGmail,myPassword);
+                        User newUser = new User(myName, myLastName, myUsername, myAge, myGmail, myPassword);
                         UserFileManager.saveUser(newUser);
                     }
                 } else {
@@ -167,7 +179,9 @@ public class MainGUI {
         frame.add(nameField);
         frame.add(new JLabel("Last Name:"));
         frame.add(lastNameField);
-        frame.add(new JLabel("Gmail"));
+        frame.add(new JLabel("Username:"));
+        frame.add(userNameField);
+        frame.add(new JLabel("Gmail:"));
         frame.add(gmailField);
         frame.add(new JLabel("Age:"));
         frame.add(ageField);
@@ -183,10 +197,40 @@ public class MainGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(10, 15));
 
+        JTextField inputUserNameField = new JTextField(15);
         JTextField inputGmailField = new JTextField(15);
-        JTextField inputPasswordField = new JTextField(15);
+        JPasswordField inputPasswordField = new JPasswordField(15);
         JButton loginButton = new JButton("Login up");
 
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String accountUserName = inputUserNameField.getText();
+                String accountGmail = inputGmailField.getText();
+                char[] accountPassChars = inputPasswordField.getPassword();
+                String accountPassword = new String(accountPassChars);
+
+                String userNameValue = inputUserNameField.getText();
+                String userGmailValue = inputGmailField.getText();
+                String userPasswordValue = new String(accountPassChars);
+
+                UserAuthentication.authenticationUser(accountUserName ,accountGmail, accountPassword);
+
+                if(!userNameValue.isEmpty() && !userGmailValue.isEmpty() && !userPasswordValue.isEmpty()) {
+                    if(!UserAuthentication.authenticationUser(accountUserName ,accountGmail, accountPassword)) {
+                        JOptionPane.showMessageDialog(frame, "Inicio exitoso " + accountUserName);
+                    } else {
+                        JOptionPane.showMessageDialog(frame,"Error al iniciar seccion");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Campos vacios, ingrese informacion para logearse");
+                }
+            }
+        });
+
+        frame.add(new JLabel("Ingresa tu Username:"));
+        frame.add(inputUserNameField);
         frame.add(new JLabel("Ingresar Gmail:"));
         frame.add(inputGmailField);
         frame.add(new JLabel("Ingresar Password:"));

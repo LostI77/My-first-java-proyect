@@ -4,11 +4,12 @@ import java.io.*;
 public class UserFileManager {
     private static final String FILE_PATH = "src/userFiles/";
     public static void saveUser(User user) {
-        try (FileWriter fileWriter = new FileWriter(FILE_PATH + user.getMyGMAIl() + ".json")){
+        try (FileWriter fileWriter = new FileWriter(FILE_PATH + user.getMyUSERNAME() + ".json")){
             JSONObject jsonUser = new JSONObject();
 
             jsonUser.put("name", user.getMyNAME());
             jsonUser.put("lastName", user.getMyLASTNAME());
+            jsonUser.put("userName", user.getMyUSERNAME());
             jsonUser.put("age", user.getMyAGE());
             jsonUser.put("gmail", user.getMyGMAIl());
             jsonUser.put("password", user.getMyPASSWORD());

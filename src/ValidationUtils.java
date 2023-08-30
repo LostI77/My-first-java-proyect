@@ -21,6 +21,13 @@ public class ValidationUtils {
         }
     }
 
+    public static boolean printVerifyUserName(String userName, String maxCharacters, String regex) {
+        if( userName.length() <= maxCharacters.length() && Pattern.matches(regex, userName)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public static boolean printVerifyGmail(String gmail, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(gmail);
