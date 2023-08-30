@@ -1,13 +1,11 @@
 import PanelOptions.ShowCustomPanelForLogin;
+import org.json.JSONObject;
+import userAccount.AccountInf;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.security.*;
-import java.util.ArrayList;
 
 public class MainGUI {
     public static void main(String[] args) {
@@ -18,6 +16,7 @@ public class MainGUI {
             registerFrame.setVisible(true);
         });
     }
+    private static String myLoggedInUserName;
     private static JFrame createRegisterFrame() {
         JFrame frame = new JFrame("Register");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -220,6 +219,11 @@ public class MainGUI {
                 if(!userNameValue.isEmpty() && !userGmailValue.isEmpty() && !userPasswordValue.isEmpty()) {
                     if(!UserAuthentication.authenticationUser(accountUserName ,accountGmail, accountPassword)) {
                         JOptionPane.showMessageDialog(frame, "Inicio exitoso " + accountUserName);
+
+                        myLoggedInUserName = accountUserName;
+
+                        frame.setVisible(false);
+                        createUserFrame(createLoginFrame(createRegisterFrame())).setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(frame,"Error al iniciar seccion");
                     }
@@ -244,6 +248,23 @@ public class MainGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
+        String name;
+        String lastName;
+        String userName;
+        String gmail;
+        int age;
+
+        if(myLoggedInUserName !=null) {
+            JSONObject accountUserJson = AccountInf.getUserJson(myLoggedInUserName);
+            name = accountUserJson.optString("name");
+            lastName = accountUserJson.optString("lastName");
+            userName = accountUserJson.optString("userName");
+            gmail = accountUserJson.optString("gmail");
+            age = accountUserJson.getInt("age");
+        } else {
+            System.out.println("[Todo vacio por ahora]");
+        }
+        frame.setSize(600, 500);
         return frame;
     }
 }

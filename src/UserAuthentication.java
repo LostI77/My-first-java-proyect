@@ -1,11 +1,12 @@
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.json.*;
 public class UserAuthentication {
-
     public static boolean authenticationUser(String inputUserName, String inputGmail, String inputPassword) {
         String filePath = "./src/userFiles/"+ inputUserName +".json";
 

@@ -17,9 +17,7 @@ public class User implements Serializable{
         this.myGMAIl = myGmail;
         this.myPASSWORD = myPassword;
     }
-    public String getMyNAME() {
-        return myNAME;
-    }
+    public String getMyNAME() { return myNAME; }
     public String getMyLASTNAME() {
         return myLASTNAME;
     }
@@ -32,7 +30,5 @@ public class User implements Serializable{
     public String getMyGMAIl() {
         return myGMAIl;
     };
-    public String getMyPASSWORD() {
-        return myPASSWORD;
-    }
+    public String getMyPASSWORD() { return myPASSWORD; }
 }
