@@ -17,8 +17,8 @@ public class UserAuthentication {
                 String content = new String(Files.readAllBytes(Paths.get(filePath)));
                 JSONObject jsonUser = new JSONObject(content);
 
-                String savedGmail = jsonUser.optString("myGMAIL");
-                String savedPassword = jsonUser.optString("myPASSWORD");
+                String savedGmail = jsonUser.optString("gmail");
+                String savedPassword = jsonUser.optString("password");
 
                 if (savedGmail != null && savedPassword != null) {
                     return savedGmail.equals(inputGmail) && savedPassword.equals(inputPassword);

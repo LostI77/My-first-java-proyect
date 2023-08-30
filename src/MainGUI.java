@@ -248,14 +248,15 @@ public class MainGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        String name;
-        String lastName;
-        String userName;
-        String gmail;
-        int age;
+        String name = null;
+        String lastName = null;
+        String userName = null;
+        String gmail = null;
+        int age = 0;
 
         if(myLoggedInUserName !=null) {
             JSONObject accountUserJson = AccountInf.getUserJson(myLoggedInUserName);
+            assert accountUserJson != null;
             name = accountUserJson.optString("name");
             lastName = accountUserJson.optString("lastName");
             userName = accountUserJson.optString("userName");
@@ -264,7 +265,8 @@ public class MainGUI {
         } else {
             System.out.println("[Todo vacio por ahora]");
         }
-        frame.setSize(600, 500);
+        System.out.println(age);
+        frame.setSize(600, 550);
         return frame;
     }
 }
